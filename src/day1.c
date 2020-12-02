@@ -17,7 +17,7 @@ void part2(const hashable_int *even_numbers, const hashable_int *odd_numbers);
 static struct Result find_pair_sum(const hashable_int *head,
                                    const int value_to_find,
                                    const int exclude_nth) {
-  struct Result result = {IS_NONE, NULL, NULL, NULL};
+  struct Result result = {IS_NONE, -1, -1, -1};
   int i = 0;
 
   for (const hashable_int *val = head; val != NULL; val = val->hh.next) {
@@ -40,7 +40,7 @@ static struct Result find_triplet_sum(const hashable_int *head,
                                       const int value_to_find,
                                       const int exclude_nth,
                                       const hashable_int *alt_head) {
-  struct Result result = {IS_NONE, NULL, NULL, NULL};
+  struct Result result = {IS_NONE, -1, -1, -1};
   int i = 0;
 
   for (const hashable_int *val = head; val != NULL; val = val->hh.next) {
@@ -66,8 +66,8 @@ int main(void) {
   hashable_int *odd_numbers = NULL;
   hashable_int *even_numbers = NULL;
 
-  fscanf(expenses, "%d", &expense);
   while (!feof(expenses)) {
+    fscanf(expenses, "%d", &expense);
     hashable_int *report = malloc(sizeof(hashable_int));
     report->value = expense;
     if (expense % 2 == 0) {
@@ -75,7 +75,6 @@ int main(void) {
     } else {
       HASH_ADD_INT(odd_numbers, value, report);
     }
-    fscanf(expenses, "%d", &expense);
   }
   fclose(expenses);
 
@@ -93,7 +92,7 @@ void part1(const hashable_int *even_numbers, const hashable_int *odd_numbers) {
   if (result.result_type == IS_NONE)
     result = find_pair_sum(odd_numbers, 2020, -1);
   if (result.result_type == IS_NONE) {
-    printf("Couldn't find it! Blame kame!\n");
+    puts("Couldn't find it! Blame kame!");
   } else if (result.result_type == IS_PAIR) {
     printf("%d x %d = %d\n", result.x, result.y, result.x * result.y);
   }
@@ -105,7 +104,7 @@ void part2(const hashable_int *even_numbers, const hashable_int *odd_numbers) {
   if (result.result_type == IS_NONE)
     result = find_triplet_sum(even_numbers, 2020, -1, odd_numbers);
   if (result.result_type == IS_NONE) {
-    printf("Couldn't find it! Blame kame! \n");
+    puts("Couldn't find it! Blame kame!");
   } else if (result.result_type == IS_TRIPLET) {
     printf("%d x %d x %d = %d \n", result.x, result.x, result.z,
            result.x * result.y * result.z);
